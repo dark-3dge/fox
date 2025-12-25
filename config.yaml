@@ -1,0 +1,54 @@
+# config.yaml
+trading:
+  mode: "live"  # backtest, paper, live
+  trading_interval: 60  # seconds
+  symbols:
+    forex: ["EURUSD", "GBPUSD", "USDJPY", "AUDUSD", "USDCAD"]
+    gold: ["XAUUSD"]
+  
+risk_management:
+  max_position_size: 0.1
+  max_daily_loss: 0.02
+  max_portfolio_var: 0.01
+  stop_loss_type: "dynamic"
+  
+models:
+  arima_garch:
+    enabled: true
+    reestimate_frequency: "daily"
+  
+  kalman_filter:
+    enabled: true
+    update_frequency: "hourly"
+  
+  hmm_regime:
+    enabled: true
+    n_regimes: 3
+    update_frequency: "daily"
+  
+  ml_models:
+    enabled: true
+    retrain_frequency: "weekly"
+    ensemble_weights:
+      random_forest: 0.3
+      xgboost: 0.3
+      lightgbm: 0.3
+      svr: 0.1
+
+data_sources:
+  forex:
+    primary: "oanda"  # or dukascopy, fxcm
+    backup: "yahoo"
+  
+  gold:
+    primary: "oanda"
+    backup: "bloomberg"
+  
+  sentiment:
+    source: "twitter"
+    api_key: ${SENTIMENT_API_KEY}
+
+broker:
+  name: "oanda"
+  account_type: "practice"  # or live
+  api_key: ${BROKER_API_KEY}
